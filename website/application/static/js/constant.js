@@ -1,0 +1,12 @@
+var _G = new Array();
+_G['province'] = new Array('未知', '山东', '贵州', '江西', '重庆', '内蒙古', '湖北', '湖南', '吉林', '福建', '上海', '北京', '广西', '广东', '四川', '云南', '青海', '甘肃', '河北', '台湾', '浙江', '江苏', '黑龙江', '辽宁', '天津', '宁夏', '安徽', '山西', '海南', '河南', '陕西', '新疆', '澳门', '香港', '西藏');
+_G['client_type'] =  new Array('未知', 'pc客户端', 'android', '小米路由', 'ios', '迅雷7插件', 'xmp插件');
+_G['user_type'] =  new Array('', '正式提速', '试用提速');
+_G['operator'] = new Array('', '电信', '北京联通', '江苏电信');
+_G['speed_ignore_code'] = new Array('508', '518', '709', '704', '711', '715', '717', '718');
+_G['feedback_ignore_query_code'] = new Array('520', '812', '1001', '10004', '10009', '3201003', '3203006', '99999');
+_G['feedback_ignore_speed_code'] = new Array('508', '518', '704', '709', '711', '715', '717', '718', '1001', '10004', '10009', '3201003', '3203006', '99999');
+_G['user_task_type'] = new Array('E_USER_TASK_TYPE_INIT', 'E_USER_TASK_TYPE_QUERY', 'E_USER_TASK_TYPE_OPEN', 'E_USER_TASK_TYPE_CLOSE', 'E_USER_TASK_TYPE_CHANGE_NOTIFY', 'E_USER_TASK_TYPE_AUTO_EXTEND');
+_G['member_type'] = new Array('非vip', 'mini', '普通', '白金', '钻石');_G['member_type'][10] = '过期vip';
+_G['isNew'] = new Array('', '新增', '续费', '回流');
+_G['market_attr'] = new Array('其他', '故障通知', '地区上线通知', '营销活动', '产品教育');
