@@ -841,7 +841,7 @@ class CI_Loader {
 		else
 		{
 			$_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
-			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.php' : $_ci_view;
+			$_ci_file = ($_ci_ext === '') ? $_ci_view.'.phtml' : $_ci_view;
 
 			foreach ($this->_ci_view_paths as $_ci_view_file => $cascade)
 			{
