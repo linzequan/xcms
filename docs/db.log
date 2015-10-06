@@ -1,0 +1,38 @@
+-- linzequan 20151006
+-- 添加应用菜单表，系统用户表，用户权限表
+CREATE TABLE IF NOT EXISTS `sys_menu` (
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '应用菜单ID',
+  `pid` int(11) DEFAULT '0' COMMENT '上级菜单ID',
+  `title` varchar(40) DEFAULT '' COMMENT '菜单标题',
+  `ctrl_name` varchar(100) DEFAULT '' COMMENT '菜单访问控制器',
+  `sort` tinyint(4) DEFAULT '0' COMMENT '菜单排序',
+  `create_uname` varchar(40) DEFAULT '' COMMENT '创建者账号',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用菜单表' ;
+CREATE TABLE IF NOT EXISTS `sys_user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统用户ID',
+  `user_name` varchar(40) DEFAULT '' COMMENT '系统用户账号',
+  `true_name` varchar(40) DEFAULT NULL COMMENT '真实姓名',
+  `email` varchar(255) NOT NULL COMMENT '邮箱',
+  `uposition` varchar(60) DEFAULT '' COMMENT '职务职责',
+  `pwd` varchar(32) DEFAULT '' COMMENT '用户密码MD5',
+  `is_admin` tinyint(4) DEFAULT '0' COMMENT '是否管理员0:非管理员,1:管理员',
+  `is_del` tinyint(4) DEFAULT '0' COMMENT '0:有效账户,1:无效账户',
+  `create_uname` varchar(40) DEFAULT '' COMMENT '创建者账号',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `key_uname` (`user_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='系统用户表' ;
+CREATE TABLE IF NOT EXISTS `sys_user_pms` (
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '系统用户ID',
+  `menu_id` int(11) NOT NULL DEFAULT '0' COMMENT '应用菜单ID',
+  `pms` char(9) DEFAULT '' COMMENT '用户权限设置1:查询2:增加3:删除4:修改5:特殊',
+  PRIMARY KEY (`user_id`,`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户权限表';
+
+
+-- linzequan 20151006
+-- 添加默认系统管理员账号 admin / admin
+INSERT INTO `sys_user` (`user_id`, `user_name`, `true_name`, `email`, `uposition`, `pwd`, `is_admin`, `is_del`, `create_uname`, `create_time`) VALUES
+(1, 'admin', 'admin', 'lowkey361@gmail.com', '系统管理员', '4140ee54593f072a9aad4e9d0f206ac7', 1, 0, 'admin', '2015-10-06 16:18:17');
