@@ -64,7 +64,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'dev.xcms.com',
 	'username' => 'xcms',
 	'password' => '123456',
 	'database' => 'xcms',
