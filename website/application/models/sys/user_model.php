@@ -15,15 +15,16 @@ class user_model extends MY_Model {
 
 
     public function search($params, $order, $page) {
-        $fields = 'user_id, user_name, true_name, uposition, is_admin, create_uname, create_time';
+        $fields = 'user_id, user_name, true_name, email, uposition, is_admin, create_uname, create_time';
         $where = array(
                     array('is_del', '0'),
                     array('user_name', get_value($params, 'user_name'), 'like'),
                     array('true_name', get_value($params, 'true_name'), 'like'),
+                    array('email', get_value($params, 'email'), 'like'),
                     array('uposition', get_value($params, 'uposition'), 'like'),
                     array('is_admin', get_value($params, 'is_admin')),
         );
-        return $this->db->get_page($this->table, $fields, $where, $order, $page);
+        return $this->get_page($this->table, $fields, $where, $order, $page);
     }
 
 
