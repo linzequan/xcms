@@ -53,6 +53,12 @@ class site_model extends MY_Model {
         $info['create_time'] = time();
         $this->db->insert($this->table, $info);
         $id = $this->db->insert_id();
+
+        // 创建应用数据库
+        if(!$this->create_sitedb($id)) {
+            $this->delete($id);
+            return $this->create_result(false, 2, '创建应用数据库失败');
+        }
         return $this->create_result(true, 0, array('id'=>$id));
     }
 
@@ -72,6 +78,13 @@ class site_model extends MY_Model {
     public function delete($site_id) {
         $this->db->delete($this->table, array('site_id'=>$site_id));
         return $this->create_result(true, 0, array('site_id'=>$site_id));
+    }
+
+
+    private function create_sitedb($site_id) {
+        $dbname = 'xcms_db' . $site_id;
+        $query = $this->db->query('CREATE DATABASE IF NOT EXISTS `' . $dbname . '` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci');
+        return $query;
     }
 
 }
