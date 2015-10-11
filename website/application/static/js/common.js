@@ -157,3 +157,17 @@ function getStrLength(str) {
     var cArr = str.match(/[^\x00-\xff]/ig);
     return str.length + (cArr == null ? 0 : cArr.length);
 }
+
+function openSubTab(title, url) {
+    var jq = top.jQuery;
+    if(jq('#panel_center_tabs').tabs('exists', title)) {
+        jq('#panel_center_tabs').tabs('select', title);
+    } else {
+        var content = '<iframe src="' + url + '" style="width:100%;height:100%;border:0;" frameborder="0"></iframe>';
+        jq('#panel_center_tabs').tabs('add', {
+            title: title,
+            content: content,
+            closable: true
+        });
+    }
+}

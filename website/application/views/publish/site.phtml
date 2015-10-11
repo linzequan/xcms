@@ -131,14 +131,15 @@
     function format_operator(val, row) {
         var rtn = '';
         if(val>0) {
-            rtn = '<button type="button" class="easyui-linkbutton" onclick="jump_choose('+val+')">选择</button>';
+            rtn = '<button type="button" class="easyui-linkbutton" onclick="jump_choose(\''+row.alias_name+'\', '+val+')">选择</button>';
         }
         return rtn;
     }
 
     // 跳转到模板
-    function jump_choose(sid) {
-        location.href = sid;
+    function jump_choose(title, sid) {
+        var url = 'publish/template/list/' + sid;
+        openSubTab('站点-'+title, url);
     }
     </script>
 </body>
