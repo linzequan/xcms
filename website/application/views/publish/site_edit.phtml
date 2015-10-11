@@ -1,0 +1,35 @@
+<div id="dlg-edit" class="easyui-dialog" style="width:400px;height:260px;padding:10px 20px"
+    closed="true" modal="true" buttons="#dlg-edit-buttons" title="编辑表单">
+    <form id="fm-edit" method="post" action="<?php echo base_url('publish/site/post')?>" novalidate>
+        <input type="hidden" name="actionxm" value="">
+        <table class="fm-table" cellpadding="4px">
+            <colgroup>
+                <col width="60px" /><col width="*" />
+            </colgroup>
+            <tr>
+                <td>站点ID:</td>
+                <td><input class="text" name="site_id" value="" readonly></td>
+            </tr>
+            <tr>
+                <td>名称:</td>
+                <td><input class="text" name="site_name" required="true"></td>
+            </tr>
+            <tr>
+                <td>别名:</td>
+                <td><input class="text" name="alias_name" required="true"></td>
+            </tr>
+            <tr>
+                <td>域名:</td>
+                <td><input class="text" name="domain" required="true"></td>
+            </tr>
+            <tr>
+                <td>描述:</td>
+                <td><input class="text" name="description" required="true"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-edit-buttons">
+    <button class="easyui-linkbutton w90" iconCls="icon-ok" onclick="do_save()">确定</button>
+    <button class="easyui-linkbutton w90" iconCls="icon-cancel" onclick="javascript:$('#dlg-edit').dialog('close')">取消</button>
+</div>
