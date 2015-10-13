@@ -19,7 +19,7 @@ class template extends MY_Controller {
 
     public function slist() {
         $data['sid'] = $this->get_request('sid');
-        $this->load->view('publish/site', $data);
+        $this->load->view('publish/template', $data);
     }
 
 

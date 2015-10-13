@@ -6,7 +6,7 @@
             'css'=>array(),
             'js' =>array(),
         ));
-        $ctrl_url = base_url('publish/site');
+        $ctrl_url = base_url('publish/template');
     ?>
     <style>
     .split-line {
@@ -28,11 +28,9 @@
            singleSelect="true" remote>
         <thead>
             <tr>
-                <th data-options="sortable:true,field:'site_id',width:50">站点ID</th>
+                <th data-options="sortable:true,field:'site_id',width:50">模板ID</th>
                 <th data-options="sortable:true,field:'site_name',width:100">名称</th>
                 <th data-options="sortable:true,field:'alias_name',width:100">别名</th>
-                <th data-options="sortable:true,field:'domain',width:180">域名</th>
-                <th data-options="sortable:true,field:'description',width:200">描述</th>
                 <th data-options="sortable:true,field:'create_user',width:80">创建账号</th>
                 <th data-options="sortable:true,field:'create_time',width:120">创建时间</th>
                 <th data-options="sortable:true,field:'update_user',width:80">更新账号</th>
