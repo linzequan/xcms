@@ -7,8 +7,11 @@
  */
 class MY_Model extends CI_Model {
 
+    protected static $appdb;
+
     public function __construct() {
         parent::__construct();
+        $this->appdb = $this->load->database('app', true);
     }
 
 
@@ -100,5 +103,12 @@ class MY_Model extends CI_Model {
         $total = $query->row(0)->rows_count;
         $query->free_result();
         return array('total'=>$total, 'rows'=>$rows);
+    }
+
+
+    public function loadAppDB($site_id='') {
+        $dbname = getAppDB($site_id);
+        $query = $this->appdb->query("use " . $dbname);
+        return $query;
     }
 }

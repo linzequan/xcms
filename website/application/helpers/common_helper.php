@@ -156,3 +156,8 @@ function array_join($list1, $list2, $join_key, $right_fields='') {
     }
     return $list1;
 }
+
+
+function getAppDB($site_id='') {
+    return $site_id=='' ? false : 'xcms_db'.$site_id;
+}

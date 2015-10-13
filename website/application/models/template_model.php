@@ -1,11 +1,11 @@
 <?php
 /**
- * 站点管理模型
+ * 模板管理模型
  *
  * @author linzequan <lowkey361@gmail.com>
  *
  */
-class site_model extends MY_Model {
+class template_model extends MY_Model {
 
     private $table = 'site';
     private $fields = 'site_id, site_name, alias_name, domain, description, create_user, create_time, update_user, update_time';
@@ -59,13 +59,6 @@ class site_model extends MY_Model {
             $this->delete($id);
             return $this->create_result(false, 2, '创建应用数据库失败');
         }
-
-        // 应用数据库创建模板信息表
-        if(!$this->create_tplinfo($id)) {
-            $this->delete($id);
-            return $this->create_result(false, 3, '创建模板信息表失败');
-        }
-
         return $this->create_result(true, 0, array('id'=>$id));
     }
 
@@ -89,15 +82,8 @@ class site_model extends MY_Model {
 
 
     private function create_sitedb($site_id) {
-        $dbname = getAppDB($site_id);
+        $dbname = 'xcms_db' . $site_id;
         $query = $this->db->query('CREATE DATABASE IF NOT EXISTS `' . $dbname . '` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci');
-        return $query;
-    }
-
-
-    private function create_tplinfo($site_id) {
-        $this->loadAppDB($site_id);
-        $query = $this->appdb->query("create table if not exists `template` (`tpl_id` int(11) not null auto_increment comment '模板ID', `tpl_name` varchar(255) not null comment '模板名称', `alias_name` varchar(255) not null comment '别名', `url_rule` varchar(255) not null comment '链接规则', `create_user` int(11) comment '创建者ID', `create_time` int(11) comment '创建时间戳', `update_user` int(11) comment '更新者ID', `update_time` int(11) comment '更新时间戳', primary key (`tpl_id`), unique key (`tpl_name`)) engine=innodb default charset=utf8 comment='模板信息表'");
         return $query;
     }
 
