@@ -97,7 +97,7 @@ class site_model extends MY_Model {
 
     private function create_tplinfo($site_id) {
         $this->loadAppDB($site_id);
-        $query = $this->appdb->query("create table if not exists `template` (`tpl_id` int(11) not null auto_increment comment '模板ID', `tpl_name` varchar(255) not null comment '模板名称', `alias_name` varchar(255) not null comment '别名', `url_rule` varchar(255) not null comment '链接规则', `create_user` int(11) comment '创建者ID', `create_time` int(11) comment '创建时间戳', `update_user` int(11) comment '更新者ID', `update_time` int(11) comment '更新时间戳', primary key (`tpl_id`), unique key (`tpl_name`)) engine=innodb default charset=utf8 comment='模板信息表'");
+        $query = $this->appdb->query("create table if not exists `template` (`tpl_id` int(11) not null auto_increment comment '模板ID', `tpl_name` varchar(255) not null comment '模板名称', `alias_name` varchar(255) not null comment '别名', `url_rule` varchar(255) not null comment '链接规则', `tpl_content` text comment '模板内容', `create_user` int(11) comment '创建者ID', `create_time` int(11) comment '创建时间戳', `update_user` int(11) comment '更新者ID', `update_time` int(11) comment '更新时间戳', primary key (`tpl_id`), unique key (`tpl_name`)) engine=innodb default charset=utf8 comment='模板信息表'");
         return $query;
     }
 

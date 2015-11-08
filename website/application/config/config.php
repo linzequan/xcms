@@ -501,14 +501,37 @@ $config['proxy_ips'] = '';
 
 // 权限控制
 $config['pms_opts']= array(
-            'select'    =>0,
-            'insert'    =>1,
-            'delete'    =>2,
-            'update'    =>3,
-            'upload'    =>4,
-            'download'  =>5,
-            'verify'    =>6,
-            'publish'   =>7,
-            'special'   =>8
+            'select'    => 0,
+            'insert'    => 1,
+            'delete'    => 2,
+            'update'    => 3,
+            'upload'    => 4,
+            'download'  => 5,
+            'verify'    => 6,
+            'publish'   => 7,
+            'special'   => 8
 );
 $config['pms_len'] = count($config['pms_opts']);
+
+// 应用数据库配置
+$config['appdb'] = array(
+    'dsn'           => '',
+    'hostname'      => 'dev.xcms.com',
+    'username'      => 'xcms',
+    'password'      => '123456',
+    'database'      => '',
+    'dbdriver'      => 'mysqli',
+    'dbprefix'      => '',
+    'pconnect'      => FALSE,
+    'db_debug'      => TRUE,
+    'cache_on'      => FALSE,
+    'cachedir'      => '',
+    'char_set'      => 'utf8',
+    'dbcollat'      => 'utf8_general_ci',
+    'swap_pre'      => '',
+    'encrypt'       => FALSE,
+    'compress'      => FALSE,
+    'stricton'      => FALSE,
+    'failover'      => array(),
+    'save_queries'  => TRUE
+);
