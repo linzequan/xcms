@@ -14,6 +14,28 @@ create table if not exists `template` (
 ) engine=innodb default charset=utf8 comment='模板信息表';
 
 
--- linzequan30151108
+-- linzequan20151108
 -- 模板信息表添加模板内容字段
 alter table `template` add `tpl_content` text comment '模板内容';
+
+
+-- linzequan 20151108
+-- 添加模板域信息表
+create table if not exists `template_field` (
+    `tf_id` int(11) not null auto_increment comment '模板域id',
+    `tpl_id` int(11) not null comment '所属模板id',
+    `tf_name` varchar(255) not null comment '模板域名称',
+    `tf_sign` varchar(255) not null comment '模板域标识，由系统自动生成',
+    `type` int(4) not null comment '类型',
+    `is_savedb` int(1) not null default 0 comment '是否入库，默认0保存，1不保存',
+    `status` int(1) not null default 0 comment '是否启用，默认0启用，1不启用',
+    `version` varchar(128) default 0.00 comment '版本号',
+    `sort` int(11) default 100 comment '排序，默认100。数字越大排序越前',
+    `build_sort` int(11) default 100 comment '编译排序，默认100.数字越大越先编译',
+    `create_user` int(11) comment '创建者ID',
+    `create_time` int(11) comment '创建时间戳',
+    `update_user` int(11) comment '更新者ID',
+    `update_time` int(11) comment '更新时间戳',
+    primary key (`tf_id`),
+    unique key (`tf_sign`)
+) engine=innodb default charset=utf8 comment='模板域信息表';
