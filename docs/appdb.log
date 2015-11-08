@@ -12,3 +12,8 @@ create table if not exists `template` (
     primary key (`tpl_id`),
     unique key (`tpl_name`)
 ) engine=innodb default charset=utf8 comment='模板信息表';
+
+
+-- linzequan30151108
+-- 模板信息表添加模板内容字段
+alter table `template` add `tpl_content` text comment '模板内容';
