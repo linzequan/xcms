@@ -47,7 +47,7 @@ div,p{margin:0;padding:0;}
 .fm-table tr{margin-bottom:5px;}
 .fm-table input.text{width:98%;padding:0;margin:0;height:20px;line-height:20px;}
 .fm-table select{width:98%;padding:0;margin:0;height:22px;line-height:22px;}
-.fm-table textarea{width:100%;padding:0;margin:0;line-height:20px;}
+.fm-table textarea{width:98%;padding:0;margin:0;line-height:20px;border-color:#DDD;resize:none;}
 
 .fm-table .checkbox,
 .fm-table .checkfor{vertical-align:middle;}

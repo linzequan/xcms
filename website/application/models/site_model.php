@@ -77,6 +77,8 @@ class site_model extends MY_Model {
         if($count>0) {
             return $this->create_result(false, 1, '站点名称已经存在');
         }
+        $info['update_user'] = $this->session->userdata('user_id');
+        $info['update_time'] = time();
         $this->db->update($this->table, $info, array('site_id'=>$site_id));
         return $this->create_result(true, 0, array('site_id'=>$site_id));
     }

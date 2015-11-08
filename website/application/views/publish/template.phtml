@@ -21,15 +21,15 @@
     </style>
 </head>
 <body>
-    <table id="dg" class="easyui-datagrid" title="数据列表"
+    <table id="dg" class="easyui-datagrid" title="模板列表"
            fit="true" border="false" plain="true"
            toolbar="#toolbar" multiSort="true"
            rownumbers="false" pagination="true" pageList="[50,100,150,200]" pageSize="50"
            singleSelect="true" remote>
         <thead>
             <tr>
-                <th data-options="sortable:true,field:'site_id',width:50">模板ID</th>
-                <th data-options="sortable:true,field:'site_name',width:100">名称</th>
+                <th data-options="sortable:true,field:'tpl_id',width:50">模板ID</th>
+                <th data-options="sortable:true,field:'tpl_name',width:100">名称</th>
                 <th data-options="sortable:true,field:'alias_name',width:100">别名</th>
                 <th data-options="sortable:true,field:'create_user',width:80">创建账号</th>
                 <th data-options="sortable:true,field:'create_time',width:120">创建时间</th>
@@ -46,7 +46,7 @@
         <button class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="do_delete()">删除</button>
     </div>
 
-    <?php $this->load->view('publish/site_edit');?>
+    <?php $this->load->view('publish/template_edit');?>
 
     <script type="text/javascript">
     $(function() {
@@ -55,7 +55,7 @@
             obj.actionxm = 'search';
             obj.rs = $('#fm-search').form('getData');
             $('#dg').datagrid({
-                url: "<?php echo $ctrl_url.'/get'?>",
+                url: "<?php echo $ctrl_url.'/get'?>" + '?sid=' + <?php echo $_GET['sid']; ?>,
                 method: "post",
                 queryParams: obj
             });
@@ -64,27 +64,26 @@
 
     // 打开添加窗口
     function open_insert(){
-        $('#fm-edit').form('clear').form('load',{actionxm:'insert',site_id:'系统编号'});
-        $('#dlg-edit').dialog('setTitle','站点添加').dialog('open');
+        $('#fm-edit').form('clear').form('load', {actionxm:'insert', tpl_id:'系统编号'});
+        $('#dlg-edit').dialog('setTitle', '模板添加').dialog('open');
     }
 
     // 打开更新窗口
     function open_update(){
-        var info=$('#dg').datagrid('getSelected');
+        var info = $('#dg').datagrid('getSelected');
         if(info==null){
-            $.messager.alert('操作提示','请选择需要编辑的站点!','warning');
+            $.messager.alert('操作提示', '请选择需要编辑的模板!', 'warning');
             return;
         }
-        var fm_data={
+        var fm_data = {
             actionxm: 'update',
-            site_id: info.site_id,
-            site_name: info.site_name,
+            tpl_id: info.tpl_id,
+            tpl_name: info.tpl_name,
             alias_name: info.alias_name,
-            domain: info.domain,
-            description: info.description
+            tpl_content: info.tpl_content
         };
-        $('#fm-edit').form('load',fm_data);
-        $('#dlg-edit').dialog('setTitle','站点编辑').dialog('open');
+        $('#fm-edit').form('load', fm_data);
+        $('#dlg-edit').dialog('setTitle', '模板编辑').dialog('open');
     }
 
     // 保存操作
@@ -96,7 +95,7 @@
             success: function(result){
                 var result = eval('('+result+')');
                 if (result.success==false){
-                    $.messager.alert('操作提示',result.data,'warning');
+                    $.messager.alert('操作提示', result.data, 'warning');
                 } else {
                     $('#dlg-edit').dialog('close');
                     $('#dg').datagrid('reload');
@@ -109,18 +108,18 @@
     function do_delete(){
         var info=$('#dg').datagrid('getSelected');
         if(info==null){
-            $.messager.alert('操作提示','请选择需要删除的站点!','warning');
+            $.messager.alert('操作提示', '请选择需要删除的模板!', 'warning');
             return;
         }
-        $.messager.confirm('操作提示','你确定要删除此站点吗?',function(r){
-            if (r){
-                $.post('<?php echo $ctrl_url."/post"?>',{site_id:info.site_id,actionxm:'delete'},function(result){
-                    if (result.success){
+        $.messager.confirm('操作提示', '你确定要删除此模板吗?', function(r) {
+            if(r) {
+                $.post('<?php echo $ctrl_url."/post"?>' + '?sid=' + <?php echo $_GET['sid']; ?>, {tpl_id:info.tpl_id, actionxm:'delete'}, function(result) {
+                    if(result.success) {
                         $('#dg').datagrid('reload');
                     } else {
-                        $.messager.alert('操作提示','删除成功');
+                        $.messager.alert('操作提示', '删除成功');
                     }
-                },'json');
+                }, 'json');
             }
         });
     }
@@ -129,7 +128,7 @@
     function format_operator(val, row) {
         var rtn = '';
         if(val>0) {
-            rtn = '<button type="button" class="easyui-linkbutton" onclick="jump_choose('+val+')">选择</button>';
+            rtn = '<button type="button" class="easyui-linkbutton" onclick="jump_choose('+val+')">文档</button>';
         }
         return rtn;
     }

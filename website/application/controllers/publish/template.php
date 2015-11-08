@@ -9,7 +9,7 @@ class template extends MY_Controller {
 
     public function __construct() {
         parent::__construct(__FILE__);
-        // $this->load->model('template');
+        $this->load->model('template_model');
     }
 
 
@@ -24,14 +24,14 @@ class template extends MY_Controller {
 
 
     public function get() {
-        $actionxm=$this->get_request('actionxm');
-        $result=array();
+        $actionxm = $this->get_request('actionxm');
+        $result = array();
         switch($actionxm) {
             case 'search':
                 $params = $this->input->post('rs');
                 $order  = get_datagrid_order();
                 $page   = get_datagrid_page();
-                $result = $this->site_model->search($params, $order, $page);
+                $result = $this->template_model->search($params, $order, $page);
                 break;
         }
         echo json_encode($result);
@@ -43,23 +43,23 @@ class template extends MY_Controller {
         $result = array();
         switch($actionxm) {
             case 'insert':
-                $info['site_name'] = $this->input->post('site_name');
+                $info['tpl_name'] = $this->input->post('tpl_name');
                 $info['alias_name'] = $this->input->post('alias_name');
-                $info['domain'] = $this->input->post('domain');
-                $info['description'] = $this->input->post('description');
-                $result = $this->site_model->insert($info);
+                $info['url_rule'] = $this->input->post('url_rule');
+                $info['tpl_content'] = $this->input->post('tpl_content');
+                $result = $this->template_model->insert($info);
                 break;
             case 'update':
-                $site_id = $this->input->post('site_id');
-                $info['site_name'] = $this->input->post('site_name');
+                $tpl_id = $this->input->post('tpl_id');
+                $info['tpl_name'] = $this->input->post('tpl_name');
                 $info['alias_name'] = $this->input->post('alias_name');
-                $info['domain'] = $this->input->post('domain');
-                $info['description'] = $this->input->post('description');
-                $result = $this->site_model->update($site_id, $info);
+                $info['url_rule'] = $this->input->post('url_rule');
+                $info['tpl_content'] = $this->input->post('tpl_content');
+                $result = $this->template_model->update($tpl_id, $info);
                 break;
             case 'delete':
-                $site_id = $this->input->post('site_id');
-                $result = $this->site_model->delete($site_id);
+                $tpl_id = $this->input->post('tpl_id');
+                $result = $this->template_model->delete($tpl_id);
                 break;
         }
         $this->output_result($result);

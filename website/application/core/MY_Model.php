@@ -13,9 +13,7 @@ class MY_Model extends CI_Model {
         parent::__construct();
         $sid = $this->input->get('sid') ? $this->input->get('sid') : 0;
         if($sid>0) {
-            $dbconfig = $this->config->item('appdb');
-            $dbconfig['database'] = getAppDB($sid);
-            $this->appdb = $this->load->database($dbconfig, true);
+            $this->loadAppDB($sid);
         }
     }
 
@@ -32,6 +30,13 @@ class MY_Model extends CI_Model {
         return array('success'=>$success, 'error'=>$error, 'data'=>$data);
     }
 
+
+    public function loadAppDB($sid='') {
+        $dbconfig = $this->config->item('appdb');
+        $dbconfig['database'] = getAppDB($sid);
+        $this->appdb = $this->load->database($dbconfig, true);
+        return true;
+    }
 
     /**
      * 获取分页数据

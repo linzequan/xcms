@@ -1,0 +1,37 @@
+<div id="dlg-edit" class="easyui-dialog" style="width:600px;height:475px;padding:10px 20px"
+    closed="true" modal="true" buttons="#dlg-edit-buttons" title="编辑表单">
+    <form id="fm-edit" method="post" action="<?php echo base_url('publish/template/post?sid=').$_GET['sid']?>" novalidate>
+        <input type="hidden" name="actionxm" value="">
+        <table class="fm-table" cellpadding="4px">
+            <colgroup>
+                <col width="60px" /><col width="*" />
+            </colgroup>
+            <tr>
+                <td>模板ID:</td>
+                <td><input class="text" name="tpl_id" value="" readonly></td>
+            </tr>
+            <tr>
+                <td>名称:</td>
+                <td><input class="text" name="tpl_name" required="true"></td>
+            </tr>
+            <tr>
+                <td>别名:</td>
+                <td><input class="text" name="alias_name" required="true"></td>
+            </tr>
+            <tr>
+                <td>URL规则:</td>
+                <td><input class="text" name="url_rule" required="true"></td>
+            </tr>
+            <tr>
+                <td>模板内容:</td>
+                <td>
+                    <textarea class="text" name="tpl_content" rows="12"></textarea>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-edit-buttons">
+    <button class="easyui-linkbutton w90" iconCls="icon-ok" onclick="do_save()">确定</button>
+    <button class="easyui-linkbutton w90" iconCls="icon-cancel" onclick="javascript:$('#dlg-edit').dialog('close')">取消</button>
+</div>
