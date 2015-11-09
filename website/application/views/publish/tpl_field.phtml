@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <?php
+        $this->load->view('/public/linker',array(
+            'css'=>array(),
+            'js' =>array(),
+        ));
+        $ctrl_url = base_url('publish/tpl_field');
+    ?>
+    <style>
+    .split-line {
+        color: #ccc;
+    }
+    .datagrid-sort-asc .datagrid-sort-icon, .datagrid-sort-desc .datagrid-sort-icon {
+        padding: 0px;
+    }
+    .tip {
+        color: #337ab7;
+    }
+    </style>
+</head>
+<body>
+    <table id="dg" class="easyui-datagrid" title="模板域列表"
+           fit="true" border="false" plain="true"
+           toolbar="#toolbar" multiSort="true"
+           rownumbers="false" pagination="true" pageList="[50,100,150,200]" pageSize="50"
+           singleSelect="true" remote>
+        <thead>
+            <tr>
+                <th data-options="sortable:true,field:'tf_id',width:60">模板域id</th>
+                <th data-options="sortable:true,field:'tpl_id',width:100">所属模板id</th>
+                <th data-options="sortable:true,field:'tf_name',width:100">模板域名称</th>
+                <th data-options="sortable:true,field:'tf_sign',width:100">标识</th>
+                <th data-options="sortable:true,field:'type',width:100">类型</th>
+                <th data-options="sortable:true,field:'is_savedb',width:100">是否入库</th>
+                <th data-options="sortable:true,field:'status',width:100">状态</th>
+                <th data-options="sortable:true,field:'version',width:100">版本号</th>
+                <th data-options="sortable:true,field:'sort',width:100">排序</th>
+                <th data-options="sortable:true,field:'build_sort',width:100">编译排序</th>
+                <th data-options="sortable:true,field:'create_user',width:80">创建账号</th>
+                <th data-options="sortable:true,field:'create_time',width:120">创建时间</th>
+                <th data-options="sortable:true,field:'update_user',width:80">更新账号</th>
+                <th data-options="sortable:true,field:'update_time',width:120">更新时间</th>
+                <th data-options="sortable:false,field:'vid',width:80" formatter="format_operator">操作</th>
+            </tr>
+        </thead>
+    </table>
+
+    <div id="toolbar">
+        <button class="easyui-linkbutton" iconCls="icon-add"    plain="true" onclick="open_insert()">添加</button>
+        <button class="easyui-linkbutton" iconCls="icon-edit"   plain="true" onclick="open_update()">修改</button>
+        <button class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="do_delete()">删除</button>
+        <span class="split-line">|</span>
+        站点：
+        <select id="sid" class="easyui-combobox" style="width:100px;" name="sid" data-options="valueField:'id',textField:'name'" panelHeight="auto" ></select>
+        模板：
+        <select id="tid" class="easyui-combobox" style="width:100px;" name="tid" data-options="valueField:'id',textField:'name'" panelHeight="auto" ></select>
+        <span class="split-line">|</span>
+        <a class="easyui-linkbutton" iconCls="icon-search" onclick="do_search()" style="width:60px">搜索</a>
+    </div>
+
+    <?php // $this->load->view('publish/template_edit');?>
+
+    <script type="text/javascript">
+    $(function() {
+        window.setTimeout(function() {
+            var obj = new Object();
+            obj.actionxm = 'search';
+            obj.rs = $('#fm-search').form('getData');
+            $('#dg').datagrid({
+                url: "<?php echo $ctrl_url.'/get'?>",
+                method: "post",
+                queryParams: obj
+            });
+        }, 100);
+
+        build_sitelist();
+
+        $('#sid').combobox({
+            'onSelect': function(rec) {
+                build_tpllist(rec.id);
+            }
+        })
+    });
+
+    // 加载站点下拉框
+    function build_sitelist() {
+        $.ajax({
+            url: '<?php echo base_url("publish/site/get?actionxm=getlist"); ?>',
+            type: 'get',
+            datatype: 'json',
+            success: function(result) {
+                var data = $.parseJSON(result);
+                var new_data = new Array();
+                new_data.push({"name":"--选择站点--", "id":-1, "selected":true});
+                $.each(data, function(i, n) {
+                    new_data.push({"name":n.name, 'id': n.id});
+                });
+                $("#sid").combobox("loadData", new_data);
+            }
+        });
+    }
+
+    // 加载模板下拉框
+    function build_tpllist(sid) {
+        if(sid==undefined) {
+            return false;
+        }
+        $.ajax({
+            url: '<?php echo base_url("publish/template/get?actionxm=getlist&sid=");?>' + sid,
+            type: 'get',
+            datatype: 'json',
+            success: function(result) {
+                var data = $.parseJSON(result);
+                var new_data = new Array();
+
+                new_data.push({"id":-1, "name":"--选择模板--", "selected":true});
+                $.each(data, function(i, n) {
+                    new_data.push({"id":n.id, 'name': n.name});
+                });
+                $("#tid").combobox("loadData", new_data);
+            }
+        });
+    }
+
+    // 打开添加窗口
+    function open_insert(){
+        $('#fm-edit').form('clear').form('load', {actionxm:'insert', tpl_id:'系统编号'});
+        $('#dlg-edit').dialog('setTitle', '模板域添加').dialog('open');
+    }
+
+    // 打开更新窗口
+    function open_update(){
+        var info = $('#dg').datagrid('getSelected');
+        if(info==null){
+            $.messager.alert('操作提示', '请选择需要编辑的模板域!', 'warning');
+            return;
+        }
+        var fm_data = {
+            actionxm: 'update',
+            tpl_id: info.tpl_id,
+            tpl_name: info.tpl_name,
+            alias_name: info.alias_name,
+            tpl_content: info.tpl_content
+        };
+        $('#fm-edit').form('load', fm_data);
+        $('#dlg-edit').dialog('setTitle', '模板域编辑').dialog('open');
+    }
+
+    // 保存操作
+    function do_save(){
+        $('#fm-edit').form('submit',{
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+                var result = eval('('+result+')');
+                if (result.success==false){
+                    $.messager.alert('操作提示', result.data, 'warning');
+                } else {
+                    $('#dlg-edit').dialog('close');
+                    $('#dg').datagrid('reload');
+                }
+            }
+        });
+    }
+
+    // 删除操作
+    function do_delete(){
+        var info=$('#dg').datagrid('getSelected');
+        if(info==null){
+            $.messager.alert('操作提示', '请选择需要删除的模板域!', 'warning');
+            return;
+        }
+        $.messager.confirm('操作提示', '你确定要删除此模板域吗?', function(r) {
+            if(r) {
+                $.post('<?php echo $ctrl_url."/post"?>', {tpl_id:info.tpl_id, actionxm:'delete'}, function(result) {
+                    if(result.success) {
+                        $('#dg').datagrid('reload');
+                    } else {
+                        $.messager.alert('操作提示', '删除成功');
+                    }
+                }, 'json');
+            }
+        });
+    }
+
+    // 格式化操作
+    function format_operator(val, row) {
+        var rtn = '';
+        if(val>0) {
+            rtn = '<button type="button" class="easyui-linkbutton" onclick="jump_choose('+val+')">文档</button>';
+        }
+        return rtn;
+    }
+
+    // 跳转到模板
+    function jump_choose(sid) {
+        location.href = sid;
+    }
+    </script>
+</body>
+</html>

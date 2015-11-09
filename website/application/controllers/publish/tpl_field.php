@@ -1,22 +1,20 @@
 <?php
 /**
- * 模板控制器
+ * 模板域控制器
  *
  * @author linzequan <lowkey361@gmail.com>
  *
  */
-class template extends MY_Controller {
+class tpl_field extends MY_Controller {
 
     public function __construct() {
-        parent::__construct(__FILE__, array(
-            'getlist'   => 'select'
-        ));
-        $this->load->model('template_model');
+        parent::__construct(__FILE__);
+        $this->load->model('tpl_field_model');
     }
 
 
     public function index() {
-        $this->load->view('publish/template');
+        $this->load->view('publish/tpl_field');
     }
 
     public function slist() {
@@ -33,10 +31,7 @@ class template extends MY_Controller {
                 $params = $this->input->post('rs');
                 $order  = get_datagrid_order();
                 $page   = get_datagrid_page();
-                $result = $this->template_model->search($params, $order, $page);
-                break;
-            case 'getlist':
-                $result = $this->template_model->getlist();
+                $result = $this->tpl_field_model->search($params, $order, $page);
                 break;
         }
         echo json_encode($result);

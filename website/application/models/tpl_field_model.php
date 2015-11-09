@@ -1,31 +1,34 @@
 <?php
 /**
- * 模板管理模型
+ * 模板域管理模型
  *
  * @author linzequan <lowkey361@gmail.com>
  *
  */
-class template_model extends MY_Model {
+class tpl_field_model extends MY_Model {
 
-    private $table = 'template';
-    private $fields = 'tpl_id, tpl_name, alias_name, url_rule, tpl_content, create_user, create_time, update_user, update_time';
+    private $table = 'tpl_field';
+    private $fields = 'tf_id, tpl_id, tf_name, tf_sign, type, type, is_savedb, status, version, sort, build_sort, create_user, create_time, update_user, update_time';
 
     public function __construct() {
         parent::__construct();
     }
 
 
-    /**
-     * 查询模板
-     * @param  array $params 搜索条件参数
-     * @param  array $order  结果排序
-     * @param  int $page   结果页数
-     * @return array         站点列表
-     */
     public function search($params, $order, $page) {
+
+        $sid = get_value($params, 'sid', 0);
+        if($sid<=0) {
+            $datas = array(
+                'rows'  => [],
+                'total' => 0
+            );
+            return $datas;
+        }
+
         $where = array();
         if(count($order)==0) {
-            $order[] = ' tpl_id desc ';
+            $order[] = ' sort desc, tf_id desc ';
         }
         $datas = $this->app_get_page($this->table, $this->fields, $where, $order, $page);
         $this->load->model('sys/user_model', 'user_model');
@@ -43,17 +46,12 @@ class template_model extends MY_Model {
             }
             $v['create_time']==null ? '' : $datas['rows'][$k]['create_time'] = date('Y-m-d H:i:s', $v['create_time']);
             $v['update_time']==null ? '' : $datas['rows'][$k]['update_time'] = date('Y-m-d H:i:s', $v['update_time']);
-            $datas['rows'][$k]['vid'] = $v['tpl_id'];
+            $datas['rows'][$k]['vid'] = $v['tf_id'];
         }
         return $datas;
     }
 
 
-    /**
-     * 新建新模板
-     * @param  array $info 站点信息
-     * @return array       操作成功与否反馈
-     */
     public function insert($info) {
         $query = $this->appdb->where('tpl_name', $info['tpl_name'])->select('tpl_id')->get($this->table);
         $count = $query->num_rows();
@@ -70,12 +68,6 @@ class template_model extends MY_Model {
     }
 
 
-    /**
-     * 更新模板信息
-     * @param  int $site_id 站点id
-     * @param  array $info    更新后的站点信息
-     * @return array          操作成功与否反馈
-     */
     public function update($id, $info) {
         $query = $this->appdb->where(array('tpl_name'=>$info['tpl_name'], 'tpl_id !='=>$id))->select('tpl_id')->get($this->table);
         $count = $query->num_rows();
@@ -90,31 +82,9 @@ class template_model extends MY_Model {
     }
 
 
-    /**
-     * 删除模板
-     * @param  int $site_id 站点id
-     * @return array          操作成功与否反馈
-     */
     public function delete($id) {
         $this->appdb->delete($this->table, array('tpl_id'=>$id));
         return $this->create_result(true, 0, array('tpl_id'=>$id));
-    }
-
-
-    /**
-     * 查询站点对应模板，组装成combox列表
-     * @return [type] [description]
-     */
-    public function getlist() {
-        $data = $this->app_get_page($this->table, $this->fields, array(), array(), array('index'=>-1, 'size'=>-1));
-
-        $result = array();
-        foreach($data['rows'] as $k=>$v) {
-            $result[$k]['id'] = $v['tpl_id'];
-            $result[$k]['name'] = $v['alias_name'];
-        }
-
-        return $result;
     }
 
 }

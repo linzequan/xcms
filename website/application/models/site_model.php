@@ -155,4 +155,20 @@ class site_model extends MY_Model {
         return $query_tpl && $query_tf;
     }
 
+
+    /**
+     * 查询所有站点，组装成combox列表
+     * @return [type] [description]
+     */
+    public function getlist() {
+        $data = $this->get_page($this->table, $this->fields, array(), array(), array('index'=>-1, 'size'=>-1));
+
+        $result = array();
+        foreach($data['rows'] as $k=>$v) {
+            $result[$k]['id'] = $v['site_id'];
+            $result[$k]['name'] = $v['alias_name'];
+        }
+
+        return $result;
+    }
 }

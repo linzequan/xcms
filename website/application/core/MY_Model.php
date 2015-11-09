@@ -102,7 +102,7 @@ class MY_Model extends CI_Model {
             $sql .= ' order by ' . implode($order, ',');
         }
 
-        if(!!count($page)) {
+        if(!!count($page) && $page['index']!=-1 && $page['size']!=-1) {
             $sql .= " limit " . ($page['size']*($page['index']-1)) . ',' . $page['size'];
         }
         $query = $this->db->query($sql);
@@ -180,7 +180,7 @@ class MY_Model extends CI_Model {
             $sql .= ' order by ' . implode($order, ',');
         }
 
-        if(!!count($page)) {
+        if(!!count($page) && $page['index']!=-1 && $page['size']!=-1) {
             $sql .= " limit " . ($page['size']*($page['index']-1)) . ',' . $page['size'];
         }
         $query = $this->appdb->query($sql);

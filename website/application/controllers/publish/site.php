@@ -8,7 +8,9 @@
 class site extends MY_Controller {
 
     public function __construct() {
-        parent::__construct(__FILE__);
+        parent::__construct(__FILE__, array(
+            'getlist'       => 'select'
+        ));
         $this->load->model('site_model');
     }
 
@@ -27,6 +29,9 @@ class site extends MY_Controller {
                 $order  = get_datagrid_order();
                 $page   = get_datagrid_page();
                 $result = $this->site_model->search($params, $order, $page);
+                break;
+            case 'getlist':
+                $result = $this->site_model->getlist();
                 break;
         }
         echo json_encode($result);
