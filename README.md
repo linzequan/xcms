@@ -1,2 +1,0 @@
-# xcms
-A flexible cms
